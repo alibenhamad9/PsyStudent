@@ -1,24 +1,58 @@
+# Logs
 *.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS files
 .DS_Store
+Thumbs.db
+
+# Environment files
 .env
 .env.backup
 .env.production
-.phpactor.json
-.phpunit.result.cache
+
+# IDEs
 /.fleet
 /.idea
 /.nova
-/.phpunit.cache
 /.vscode
 /.zed
+
+# PHP / Laravel cache
+.phpactor.json
+.phpunit.result.cache
+/.phpunit.cache
+/bootstrap/cache/*
+/storage/debugbar
+/storage/logs/*
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/testing/*
+/storage/framework/views/*
+
+# Auth / secrets
 /auth.json
+/storage/*.key
+
+# Dependencies
 /node_modules
+/vendor
+
+# Build files
 /public/build
 /public/hot
 /public/storage
-/storage/*.key
+
+# Misc
 /storage/pail
-/vendor
+composer.phar
+
+# Laravel Sail
+docker-compose.override.yml
+
+# Homestead
 Homestead.json
 Homestead.yaml
-Thumbs.db
+
