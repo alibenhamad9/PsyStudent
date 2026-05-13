@@ -17,18 +17,53 @@
         $progressClass = 'bg-success';
         $alertClass = 'alert-success';
         $label = 'Stable';
+
+        $messages = [
+            [
+                'title' => 'État émotionnel équilibré',
+                'text' => 'Votre état général semble stable. Vous démontrez une bonne capacité à gérer votre stress et vos émotions au quotidien.'
+            ],
+            [
+                'title' => 'Maintenir votre bien-être',
+                'text' => 'Continuez à préserver vos habitudes positives : sommeil régulier, activité physique, repos mental et échanges sociaux sains.'
+            ]
+        ];
+
     } elseif ($status === 'attention') {
         $borderClass = 'border-warning';
         $badgeClass = 'bg-warning text-dark';
         $progressClass = 'bg-warning';
         $alertClass = 'alert-warning';
         $label = 'Attention';
+
+        $messages = [
+            [
+                'title' => 'Des signes de fatigue mentale détectés',
+                'text' => 'Certaines réponses montrent une charge émotionnelle ou un stress qui mérite votre attention. Il est important de ne pas ignorer ces signes.'
+            ],
+            [
+                'title' => 'Prendre soin de votre santé mentale',
+                'text' => 'Essayez de ralentir le rythme, de parler avec une personne de confiance et de consulter un professionnel si ces difficultés persistent.'
+            ]
+        ];
+
     } else {
         $borderClass = 'border-danger';
         $badgeClass = 'bg-danger text-white';
         $progressClass = 'bg-danger';
         $alertClass = 'alert-danger';
         $label = 'Critique';
+
+        $messages = [
+            [
+                'title' => 'Votre bien-être mental nécessite une attention immédiate',
+                'text' => 'Vos réponses indiquent une souffrance psychologique importante. Vous n’êtes pas seul et il est essentiel de prendre cette situation au sérieux.'
+            ],
+            [
+                'title' => 'Consulter un professionnel peut vous aider',
+                'text' => 'Nous vous recommandons fortement de contacter un psychologue, un psychiatre ou un conseiller spécialisé afin d’obtenir un accompagnement adapté et sécurisé.'
+            ]
+        ];
     }
 @endphp
 
@@ -39,22 +74,30 @@
 
         <!-- SCORE CARD -->
         <div class="card border-5 {{ $borderClass }}">
-            <div class="card-body">
+            <div class="card-body text-center">
 
                 <h4>{{ $evaluation->quiz->titre ?? 'Quiz' }}</h4>
 
-                <h1>{{ number_format($percent, 1) }}%</h1>
+                <h1 class="display-4 fw-bold">
+                    {{ number_format($percent, 1) }}%
+                </h1>
 
-                <p>
-                    Score: {{ $evaluation->score_total ?? 0 }} / {{ $evaluation->score_max ?? 0 }}
+                <p class="mb-3">
+                    Score :
+                    <strong>{{ $evaluation->score_total ?? 0 }}</strong>
+                    /
+                    <strong>{{ $evaluation->score_max ?? 0 }}</strong>
                 </p>
 
-                <span class="badge {{ $badgeClass }}">
+                <span class="badge {{ $badgeClass }} px-4 py-2">
                     {{ $label }}
                 </span>
 
-                <div class="progress mt-3">
-                    <div class="progress-bar {{ $progressClass }}" data-width="{{ $percent }}">
+                <div class="progress mt-4" style="height: 28px;">
+                    <div
+                        class="progress-bar {{ $progressClass }}"
+                        data-width="{{ $percent }}"
+                    >
                         {{ number_format($percent, 1) }}%
                     </div>
                 </div>
@@ -65,9 +108,21 @@
         <!-- INTERPRETATION -->
         <div class="card mt-4">
             <div class="card-body">
-                <div class="alert {{ $alertClass }}">
-                    {{ $label }}
-                </div>
+
+                <h4 class="mb-4">Interprétation</h4>
+
+                @foreach ($messages as $msg)
+                    <div class="alert {{ $alertClass }} mb-3">
+                        <h5 class="fw-bold">
+                            {{ $msg['title'] }}
+                        </h5>
+
+                        <p class="mb-0">
+                            {{ $msg['text'] }}
+                        </p>
+                    </div>
+                @endforeach
+
             </div>
         </div>
 
@@ -75,25 +130,32 @@
         <div class="card mt-4">
             <div class="card-body">
 
-                <h5>Conseils</h5>
+                <h5 class="mb-3">Conseils personnalisés</h5>
 
                 @php
                     $conseils = [];
 
                     foreach ($details as $d) {
                         if (($d['selected_value'] ?? 3) <= 2) {
-                            $conseils[] = 'Amélioration recommandée dans ce domaine.';
+                            $conseils[] = 'Essayez d’identifier les sources principales de stress dans votre quotidien.';
+                            $conseils[] = 'Accordez-vous des moments de repos et limitez la surcharge mentale.';
+                            $conseils[] = 'N’hésitez pas à demander du soutien auprès de proches ou de professionnels.';
                         }
                     }
 
                     if (empty($conseils)) {
-                        $conseils[] = 'État global correct.';
+                        $conseils[] = 'Continuez à maintenir un équilibre entre études, repos et vie personnelle.';
+                        $conseils[] = 'Gardez des habitudes saines pour préserver votre stabilité émotionnelle.';
                     }
+
+                    $conseils = array_unique($conseils);
                 @endphp
 
-                <ul>
+                <ul class="list-group">
                     @foreach ($conseils as $c)
-                        <li>{{ $c }}</li>
+                        <li class="list-group-item">
+                            {{ $c }}
+                        </li>
                     @endforeach
                 </ul>
 
@@ -101,12 +163,17 @@
         </div>
 
         <!-- ACTIONS -->
-        <div class="row mt-4">
-            <div class="col-md-6">
-                <a href="/dashboard" class="btn btn-primary w-100">Retour</a>
+        <div class="row mt-4 mb-5">
+            <div class="col-md-6 mb-3 mb-md-0">
+                <a href="/dashboard" class="btn btn-primary w-100">
+                    Retour au tableau de bord
+                </a>
             </div>
+
             <div class="col-md-6">
-                <a href="/dashboard" class="btn btn-secondary w-100">Refaire un quiz</a>
+                <a href="/dashboard" class="btn btn-secondary w-100">
+                    Refaire un quiz
+                </a>
             </div>
         </div>
 
