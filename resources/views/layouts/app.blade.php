@@ -6,11 +6,13 @@
     <title>@yield('title') - Soutien Psychologique</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #2E5090;
-            --secondary: #00A896;
+            --primary: #3b82f6; /* Bleu doux */
+            --secondary: #00A896; /* Vert d'eau */
             --accent: #F79646;
+            --background: #f8fafc;
         }
 
         * {
@@ -20,89 +22,112 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Outfit', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
             min-height: 100vh;
+            color: #1e293b;
         }
 
         .navbar {
-            background: linear-gradient(90deg, var(--primary) 0%, #1F3B6B 100%);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            background: rgba(30, 41, 59, 0.9) !important;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 15px 0;
         }
 
         .navbar-brand {
-            font-weight: bold;
+            font-weight: 800;
             font-size: 1.5rem;
             color: white !important;
+            letter-spacing: -0.5px;
+        }
+
+        .navbar-brand i {
+            color: #ef4444;
+            animation: beat 1.2s infinite alternate;
+        }
+
+        @keyframes beat {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
         }
 
         .nav-link {
-            color: rgba(255,255,255,0.8) !important;
-            transition: all 0.3s;
+            color: rgba(255,255,255,0.7) !important;
+            font-weight: 500;
+            transition: all 0.2s;
+            border-radius: 8px;
+            padding: 8px 16px !important;
         }
 
         .nav-link:hover {
             color: white !important;
-            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.08);
         }
 
         .container-main {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            padding: 40px;
-            margin-top: 30px;
-            margin-bottom: 30px;
+            padding: 20px 0;
+            margin-top: 20px;
+            margin-bottom: 40px;
         }
 
         .btn-primary {
-            background: linear-gradient(90deg, var(--primary) 0%, #1F3B6B 100%);
+            background: linear-gradient(135deg, var(--primary) 0%, #1d4ed8 100%);
             border: none;
-            padding: 10px 30px;
-            font-weight: bold;
+            padding: 10px 24px;
+            border-radius: 30px;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
             transition: all 0.3s;
         }
 
         .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(46, 80, 144, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.35);
         }
 
-        .card {
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--secondary) 0%, #0d9488 100%);
             border: none;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 10px 24px;
+            border-radius: 30px;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0, 168, 150, 0.2);
             transition: all 0.3s;
         }
 
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 168, 150, 0.35);
         }
 
         .alert {
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
         }
 
         .form-control, .form-select {
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            padding: 12px;
-            transition: all 0.3s;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            padding: 12px 16px;
+            font-size: 0.95rem;
+            transition: all 0.2s;
         }
 
         .form-control:focus, .form-select:focus {
             border-color: var(--primary);
-            box-shadow: 0 0 0 0.2rem rgba(46, 80, 144, 0.25);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
         }
 
         footer {
-            background: var(--primary);
-            color: white;
-            padding: 20px;
+            background: #1e293b;
+            color: #94a3b8;
+            padding: 30px 20px;
             text-align: center;
-            margin-top: 40px;
+            border-top: 1px solid #334155;
+            font-size: 0.9rem;
         }
     </style>
 
@@ -113,7 +138,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="/">
-                <i class="fas fa-heart"></i> Soutien Psycho
+                <i class="fas fa-heart"></i> PsyStudent
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -127,6 +152,9 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="userDropdown">
                                 <li><a class="dropdown-item" href="/dashboard"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+                                @if(Auth::user()->role === 'admin')
+                                    <li><a class="dropdown-item" href="{{ route('admin.dashboard') }}"><i class="fas fa-user-shield"></i> Administration</a></li>
+                                @endif
                                 <li><hr class="dropdown-divider"></li>
                                 <li>
                                     <form action="{{ route('logout') }}" method="POST" style="display:inline;">

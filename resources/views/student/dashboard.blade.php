@@ -188,9 +188,17 @@
 <!-- Bouton permanent SOS Crise -->
 <div class="d-flex justify-content-between align-items-center mb-3">
     <span class="text-muted">Tableau de bord étudiant</span>
-    <button class="btn btn-danger btn-sm rounded-pill px-3 shadow-sm" data-bs-toggle="modal" data-bs-target="#sosModal">
-        <i class="fas fa-phone-alt"></i> Besoin d'aide immédiate ? (SOS)
-    </button>
+    <div class="d-flex gap-2">
+        <a href="{{ route('student.appointments.index') }}" class="btn btn-outline-primary btn-sm rounded-pill px-3">
+            <i class="fas fa-calendar-alt"></i> Mes Rendez-vous
+        </a>
+        <a href="{{ route('student.resources.index') }}" class="btn btn-outline-success btn-sm rounded-pill px-3">
+            <i class="fas fa-book-medical"></i> Ressources
+        </a>
+        <button class="btn btn-danger btn-sm rounded-pill px-3 shadow-sm" data-bs-toggle="modal" data-bs-target="#sosModal">
+            <i class="fas fa-phone-alt"></i> Besoin d'aide immédiate ? (SOS)
+        </button>
+    </div>
 </div>
 
 <!-- Header de bienvenue -->

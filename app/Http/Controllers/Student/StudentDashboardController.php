@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Student;
 
+use App\Http\Controllers\Controller;
 use App\Models\Quiz;
 use App\Models\Evaluation;
 use App\Models\Mood;
 use Illuminate\Support\Facades\Auth;
 
-class DashboardController extends Controller
+class StudentDashboardController extends Controller
 {
     public function index()
     {
@@ -15,6 +16,19 @@ class DashboardController extends Controller
 
         if (!$user) {
             return redirect('/login');
+        }
+
+        // Si l'utilisateur est suspendu, on le déconnecte avec un message
+        if ($user->is_suspended) {
+            Auth::logout();
+            return redirect()->route('login')->withErrors([
+                'email' => 'Votre compte a été suspendu par l\'administrateur. Veuillez contacter le support.'
+            ]);
+        }
+
+        // Si c'est l'admin, on le redirige vers le dashboard admin
+        if ($user->role === 'admin') {
+            return redirect()->route('admin.dashboard');
         }
 
         $quizzes = Quiz::with('chatbot')->get();
@@ -37,12 +51,11 @@ class DashboardController extends Controller
         $badges = $user->badges()->latest()->get();
 
         // S'assurer que le streak est mis à jour à chaque affichage du dashboard
-        // si la dernière activité était hier et n'est pas encore mise à jour
         if ($user->last_activity_date && $user->last_activity_date->toDateString() === now()->subDay()->toDateString()) {
             $user->updateStreak();
         }
 
-        return view('dashboard', [
+        return view('student.dashboard', [
             'quizzes' => $quizzes,
             'evaluations' => $evaluations,
             'lastEvaluation' => $lastEvaluation,
